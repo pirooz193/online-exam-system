@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/onlineexam
     username: root
-    password: 13791372
+    password:
   jpa:
     database: mysql
     hibernate:
