@@ -82,7 +82,9 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Exam getExamByExamCode(String examCode) {
         logger.debug("Request to get Exam by exam-code :{}", examCode);
-        return examRepository.getExamByExamCode(examCode);
+        Exam requiredExam = examRepository.getExamByExamCode(examCode);
+        if (requiredExam == null) throw new ExamNotFoundException(examCode);
+        return requiredExam;
     }
 
     @Override
