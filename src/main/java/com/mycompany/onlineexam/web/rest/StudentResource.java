@@ -6,18 +6,14 @@ import com.mycompany.onlineexam.domain.constants.Constants;
 import com.mycompany.onlineexam.service.ExamService;
 import com.mycompany.onlineexam.service.StudentService;
 import com.mycompany.onlineexam.service.dto.StudentDTO;
-import com.mycompany.onlineexam.web.errors.NotFoundErrorException;
 import com.mycompany.onlineexam.web.errors.StudentListEmptyException;
+import com.mycompany.onlineexam.web.errors.UserNotFoundErrorException;
 import com.mycompany.onlineexam.web.errors.UserNotFountException;
-import com.mycompany.onlineexam.web.model.ApiUtil;
 import com.mycompany.onlineexam.web.model.QuestionAndAnswerForm;
-import com.mycompany.onlineexam.web.model.ServiceResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.zalando.problem.Status;
 
 import java.net.URI;
 import java.util.List;
@@ -55,7 +51,7 @@ public class StudentResource {
     public ResponseEntity<Student> getStudentByStudentCode(@PathVariable String studentCode) {
         logger.info("Request to get sn Student by  student-code :{}", studentCode);
         Student student = studentService.getStudentByStudentCode(studentCode);
-        if (student == null) throw new NotFoundErrorException("student", studentCode);
+        if (student == null) throw new UserNotFoundErrorException("student", studentCode);
         return ResponseEntity.ok().body(student);
     }
 
