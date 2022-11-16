@@ -4,7 +4,7 @@ import com.mycompany.onlineexam.domain.Master;
 import com.mycompany.onlineexam.domain.constants.Constants;
 import com.mycompany.onlineexam.service.MasterService;
 import com.mycompany.onlineexam.service.dto.MasterDTO;
-import com.mycompany.onlineexam.web.errors.UserNotFountException;
+import com.mycompany.onlineexam.web.errors.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class MasterResource {
     public ResponseEntity<Master> loginMaster(@RequestParam String username, @RequestParam String password) {
         logger.info("Request to login Master with username:{} , and password :{}", username, password);
         Master master = masterService.checkMasterLogin(username, password);
-        if (master == null) throw new UserNotFountException(Constants.MASTER_CODE);
+        if (master == null) throw new NotFoundException(Constants.MASTER_CODE);
         return ResponseEntity.ok(master);
     }
 
@@ -49,7 +49,7 @@ public class MasterResource {
     public ResponseEntity<Master> createMaster(@RequestBody MasterDTO masterDto) {
         logger.info("Request to create a new Master :{}", masterDto);
         Master master = masterService.createMaster(masterDto);
-        if (master == null) throw new UserNotFountException(Constants.MASTER_CODE);
+        if (master == null) throw new NotFoundException(Constants.MASTER_CODE);
         return ResponseEntity.created(URI.create("/create")).body(master);
     }
 
