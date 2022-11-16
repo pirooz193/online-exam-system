@@ -20,7 +20,7 @@ public class CourseDTO {
     @JsonProperty("exam")
     private List<ExamDTO> examDTOS;
     @JsonProperty("master")
-    private Set<MasterDTO> masterDTOS;
+    private MasterDTO masterDTO;
     @JsonProperty("students")
     private Set<StudentDTO> studentDTOS;
 
@@ -33,7 +33,7 @@ public class CourseDTO {
                 ", courseCode='" + courseCode + '\'' +
                 ", capacity=" + capacity +
                 ", examDTOS=" + examDTOS +
-                ", masterDTOS=" + masterDTOS +
+                ", masterDTO=" + masterDTO +
                 ", studentDTOS=" + studentDTOS +
                 '}';
     }
@@ -70,12 +70,12 @@ public class CourseDTO {
         this.examDTOS = examDTOS;
     }
 
-    public Set<MasterDTO> getMasterDTOS() {
-        return masterDTOS;
+    public MasterDTO getMasterDTO() {
+        return masterDTO;
     }
 
-    public void setMasterDTOS(Set<MasterDTO> masterDTOS) {
-        this.masterDTOS = masterDTOS;
+    public void setMasterDTOS(MasterDTO masterDTO) {
+        this.masterDTO = masterDTO;
     }
 
     public Set<StudentDTO> getStudentDTOS() {
