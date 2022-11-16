@@ -19,4 +19,7 @@ public class Constants {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String ADMIN = "ADMIN";
+    public static final Integer EXAM_CODE_LENGTH = 7;
+    public static final Integer QUESTION_CODE_LENGTH = 7;
+    public static final Integer COURSE_CODE_LENGTH = 7;
 }

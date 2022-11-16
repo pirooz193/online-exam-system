@@ -28,7 +28,7 @@ public class Question {
     private Set<Answer> answers = new HashSet<>();
 
     public Question() {
-        this.questionCode = ApiUtil.generateRandomCode(Constants.QUESTION, 7);
+        this.questionCode = ApiUtil.generateRandomCode(Constants.QUESTION, Constants.QUESTION_CODE_LENGTH);
     }
 
     @Override

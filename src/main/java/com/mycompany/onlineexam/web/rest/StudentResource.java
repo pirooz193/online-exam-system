@@ -6,9 +6,9 @@ import com.mycompany.onlineexam.domain.constants.Constants;
 import com.mycompany.onlineexam.service.ExamService;
 import com.mycompany.onlineexam.service.StudentService;
 import com.mycompany.onlineexam.service.dto.StudentDTO;
+import com.mycompany.onlineexam.web.errors.NotFoundException;
 import com.mycompany.onlineexam.web.errors.StudentListEmptyException;
 import com.mycompany.onlineexam.web.errors.UserNotFoundErrorException;
-import com.mycompany.onlineexam.web.errors.UserNotFountException;
 import com.mycompany.onlineexam.web.model.QuestionAndAnswerForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +36,7 @@ public class StudentResource {
     public ResponseEntity<Student> loginStudent(@RequestParam String username, @RequestParam String password) {
         logger.info("Request to check student login with username:{} and password :{}", username, password);
         Student student = studentService.getStudentByUsernameAndPassword(username, password);
-        if (student == null) throw new UserNotFountException(Constants.STUDENT);
+        if (student == null) throw new NotFoundException(Constants.STUDENT);
         return ResponseEntity.ok(student);
     }
 
