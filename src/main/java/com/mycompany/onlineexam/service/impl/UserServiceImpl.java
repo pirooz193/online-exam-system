@@ -5,7 +5,7 @@ import com.mycompany.onlineexam.domain.User;
 import com.mycompany.onlineexam.repository.RoleRepository;
 import com.mycompany.onlineexam.repository.UserRepository;
 import com.mycompany.onlineexam.service.UserService;
-import com.mycompany.onlineexam.web.errors.UserNotFountException;
+import com.mycompany.onlineexam.web.errors.NotFoundException;
 import com.mycompany.onlineexam.web.model.TokenModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFountException("User with  username : " + username));
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new NotFoundException("User with  username : " + username));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void addRoleToUser(String username, String roleName) {
         logger.info("Request to add role :{} to  user with  username :{}", roleName, username);
-        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFountException(username));
+        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new NotFoundException(username));
         Role role = roleRepository.findRoleByName(roleName).get();
         user.getRoles().add(role);
     }

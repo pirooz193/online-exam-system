@@ -12,8 +12,8 @@ import com.mycompany.onlineexam.service.dto.ExamDTO;
 import com.mycompany.onlineexam.service.mapper.ExamMapper;
 import com.mycompany.onlineexam.web.errors.ExamNotFoundException;
 import com.mycompany.onlineexam.web.errors.IsNotStartTimeException;
+import com.mycompany.onlineexam.web.errors.NotFoundException;
 import com.mycompany.onlineexam.web.errors.TimeIsUpException;
-import com.mycompany.onlineexam.web.model.ApiUtil;
 import com.mycompany.onlineexam.web.model.ExamQuestionsForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,8 +48,8 @@ public class ExamServiceImpl implements ExamService {
     public Exam save(ExamDTO examDTO, String courseCode) {
         logger.debug("Request to  create an Exam  in service layer :{}", examDTO);
         Exam exam = examMapper.toEntity(examDTO);
-        exam.setExamCode(ApiUtil.generateRandomCode(Constants.EXAM_CODE, 7));
         Course course = courseRepository.findCourseByCourseCode(courseCode);
+        if (course == null) throw new NotFoundException(Constants.COURSE + Constants.EQUAL_MARK + courseCode);
         course.getExamList().add(exam);
         examRepository.save(exam);
         courseRepository.save(course);
