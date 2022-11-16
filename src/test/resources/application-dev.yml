@@ -10,9 +10,13 @@ spring:
       ddl-auto: update
 
     show-sql: true
-application :
+application:
   security:
     login-address: localhost:8080/api/login
+    get-token-request-uri: localhost:8080/api/get-token
   constants:
     master-code-number: 7
     student-code-number: 7
+    admin-code-number: 10
+#server:
+#  port: 8083
