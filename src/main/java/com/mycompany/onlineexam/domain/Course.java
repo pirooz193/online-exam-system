@@ -1,5 +1,8 @@
 package com.mycompany.onlineexam.domain;
 
+import com.mycompany.onlineexam.domain.constants.Constants;
+import com.mycompany.onlineexam.web.model.ApiUtil;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -33,6 +36,7 @@ public class Course {
     private Set<Student> students = new HashSet<>();
 
     public Course() {
+        this.courseCode = ApiUtil.generateRandomCode(Constants.COURSE, Constants.COURSE_CODE_LENGTH);
     }
 
     public Course(Long id, String courseTitle, String courseCode, List<Exam> examList, Master master, Set<Student> students) {
@@ -42,6 +46,7 @@ public class Course {
         this.examList = examList;
         this.master = master;
         this.students = students;
+        this.courseCode = ApiUtil.generateRandomCode(Constants.COURSE, Constants.COURSE_CODE_LENGTH);
     }
 
     @Override

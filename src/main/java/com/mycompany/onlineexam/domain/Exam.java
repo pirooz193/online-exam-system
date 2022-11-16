@@ -1,5 +1,8 @@
 package com.mycompany.onlineexam.domain;
 
+import com.mycompany.onlineexam.domain.constants.Constants;
+import com.mycompany.onlineexam.web.model.ApiUtil;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -33,12 +36,14 @@ public class Exam {
 
 
     public Exam() {
+        this.examCode = ApiUtil.generateRandomCode(Constants.EXAM_CODE, Constants.EXAM_CODE_LENGTH);
     }
 
     public Exam(Long id, String examTitle, Set<Question> questions) {
         this.id = id;
         this.examTitle = examTitle;
         this.questions = questions;
+        this.examCode = ApiUtil.generateRandomCode(Constants.EXAM_CODE, Constants.EXAM_CODE_LENGTH);
     }
 
     @Override
