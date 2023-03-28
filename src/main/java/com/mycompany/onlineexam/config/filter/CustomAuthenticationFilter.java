@@ -3,7 +3,6 @@ package com.mycompany.onlineexam.config.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.onlineexam.config.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -62,6 +61,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() * 30 * 60 * 1000))
                 .withIssuer(request.getRequestURI())
+                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
         Map<String, String> tokens = new HashMap<>();
