@@ -1,11 +1,16 @@
 package com.mycompany.onlineexam.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.mycompany.onlineexam.domain.Role;
 import com.mycompany.onlineexam.domain.User;
 import com.mycompany.onlineexam.repository.RoleRepository;
 import com.mycompany.onlineexam.repository.UserRepository;
 import com.mycompany.onlineexam.service.UserService;
 import com.mycompany.onlineexam.web.errors.NotFoundException;
+import com.mycompany.onlineexam.web.model.RefreshTokenModel;
 import com.mycompany.onlineexam.web.model.TokenModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +29,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.mycompany.onlineexam.domain.constants.Constants.PASSWORD;
@@ -102,5 +109,39 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .bodyToMono(TokenModel.class)
                 .block();
         return token;
+    }
+
+    @Override
+    public TokenModel createNewTokenByRefreshToken(RefreshTokenModel refreshTokenModel) {
+        String refreshToken = refreshTokenModel.getRefreshToken();
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(refreshToken);
+
+        String username = decodedJWT.getSubject();
+        String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        Arrays.stream(roles).forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role));
+        });
+
+        String accessToken = JWT.create()
+                .withSubject(username)
+                .withExpiresAt(new Date(System.currentTimeMillis() * 10 * 60 * 1000))
+                .withClaim("roles", Arrays.asList(roles))
+                .sign(algorithm);
+
+        String newRefreshToken = JWT.create()
+                .withSubject(username)
+                .withExpiresAt(new Date(System.currentTimeMillis() * 30 * 60 * 1000))
+                .withIssuer("/api/refresh-token")
+                .sign(algorithm);
+
+//            return ResponseEntity.ok(new AccessTokenResponse(accessToken));
+        TokenModel newTokenModel = new TokenModel();
+        newTokenModel.setAccessToken(accessToken);
+        newTokenModel.setRefreshToken(newRefreshToken);
+        return newTokenModel;
     }
 }

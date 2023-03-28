@@ -4,6 +4,7 @@ import com.mycompany.onlineexam.domain.Role;
 import com.mycompany.onlineexam.domain.RoleToUserForm;
 import com.mycompany.onlineexam.domain.User;
 import com.mycompany.onlineexam.service.UserService;
+import com.mycompany.onlineexam.web.model.RefreshTokenModel;
 import com.mycompany.onlineexam.web.model.TokenModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,7 +56,13 @@ public class UserController {
     @PostMapping("/get-token")
     public ResponseEntity<TokenModel> getToken(@RequestParam String username, @RequestParam String password) {
 //        logger.info("Request to get token with username :{} , and password :{}", username, password);
-       TokenModel token =  userService.getToken(username, password);
+        TokenModel token = userService.getToken(username, password);
         return ResponseEntity.ok(token);
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<TokenModel> refreshToken(@RequestBody RefreshTokenModel refreshTokenModel) {
+        TokenModel newToken = userService.createNewTokenByRefreshToken(refreshTokenModel);
+        return ResponseEntity.created(URI.create("api/refresh-token")).body(newToken);
     }
 }
