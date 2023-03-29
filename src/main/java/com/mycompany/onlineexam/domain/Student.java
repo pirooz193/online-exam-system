@@ -16,8 +16,9 @@ public class Student extends User {
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
-    public Student(String username, String password, List<Role> roles, String studentCode, String phoneNumber) {
-        super(username, password, roles);
+    public Student(String name, String lastName, String username, String password, List<Role> roles, String studentCode, String phoneNumber) {
+        super(name, lastName, username, password, roles);
+
         this.studentCode = studentCode;
         this.phoneNumber = phoneNumber;
     }
