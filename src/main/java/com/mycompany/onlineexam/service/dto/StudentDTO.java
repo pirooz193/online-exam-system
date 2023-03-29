@@ -3,6 +3,7 @@ package com.mycompany.onlineexam.service.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mycompany.onlineexam.domain.Role;
 import com.sun.istack.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,61 +12,57 @@ import java.util.Objects;
 public class StudentDTO {
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("username")
+    @JsonProperty("name")
     @NotNull
+    private String name;
+    @JsonProperty("lastName")
+    @NotNull
+    private String lastName;
+    @JsonProperty("username")
     private String username;
     @JsonProperty("password")
     private String password;
-    @JsonProperty("student_code")
+    @JsonProperty("studentCode")
+    @NotNull
     private String studentCode;
     @JsonProperty("phone_number")
+    @NotNull
     private String phoneNumber;
     @JsonProperty("roles")
     private List<Role> roles = new ArrayList<>();
-
-    public StudentDTO(Long id, String username, String password, String studentCode, String phoneNumber, List<Role> roles) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.studentCode = studentCode;
-        this.phoneNumber = phoneNumber;
-        this.roles = roles;
-    }
-
-    public StudentDTO(Long id, String username, String password, String studentCode, String phoneNumber) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.studentCode = studentCode;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public StudentDTO() {
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StudentDTO that = (StudentDTO) o;
-        return id.equals(that.id) && username.equals(that.username) && password.equals(that.password) && studentCode.equals(that.studentCode) && phoneNumber.equals(that.phoneNumber) && roles.equals(that.roles);
+        return id.equals(that.id) && name.equals(that.name) && lastName.equals(that.lastName) && username.equals(that.username) && password.equals(that.password) && studentCode.equals(that.studentCode) && phoneNumber.equals(that.phoneNumber) && roles.equals(that.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, studentCode, phoneNumber, roles);
+        return Objects.hash(id, name, lastName, username, password, studentCode, phoneNumber, roles);
     }
 
     @Override
     public String toString() {
-        return "StudentDTO{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", studentCode='" + studentCode + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", roles=" + roles +
-                '}';
+        return "StudentDTO{" + "id=" + id + ", name='" + name + '\'' + ", lastName='" + lastName + '\'' + ", username='" + username + '\'' + ", password='" + password + '\'' + ", studentCode='" + studentCode + '\'' + ", phoneNumber='" + phoneNumber + '\'' + ", roles=" + roles + '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Long getId() {
