@@ -14,8 +14,8 @@ public class Admin extends User {
     @Column(name = "admin_code", nullable = false, unique = true)
     private String adminCode;
 
-    public Admin(String username, String password, List<Role> roles, String adminCode) {
-        super(username, password, roles);
+    public Admin(String name, String lastName, String username, String password, List<Role> roles, String adminCode) {
+        super(name, lastName, username, password, roles);
         this.adminCode = adminCode;
     }
 

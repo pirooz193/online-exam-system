@@ -9,9 +9,7 @@ import com.mycompany.onlineexam.service.ExamService;
 import com.mycompany.onlineexam.service.StudentService;
 import com.mycompany.onlineexam.service.UserService;
 import com.mycompany.onlineexam.service.dto.StudentDTO;
-import com.mycompany.onlineexam.service.mapper.AnswerMapper;
 import com.mycompany.onlineexam.service.mapper.StudentMapper;
-import com.mycompany.onlineexam.web.model.ApiUtil;
 import com.mycompany.onlineexam.web.model.QuestionAndAnswerForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,7 +54,8 @@ public class StudentServiceImpl implements StudentService {
     public Student createStudent(StudentDTO studentDTO) {
         logger.debug("Request to create an student :{}", studentDTO);
         Student student = studentMapper.toEntity(studentDTO);
-        student.setStudentCode(ApiUtil.generateRandomCode(Constants.STUDENT, NUMBER_OF_STUDENT_CODE));
+        student.setStudentCode(Constants.STUDENT + Constants.DASH + student.getStudentCode());
+        student.setUsername(student.getStudentCode().split("-")[1]);
         student.setPassword(passwordEncoder.encode(studentDTO.getPhoneNumber()));
         Student savedStudent = studentRepository.save(student);
         userService.addRoleToUser(savedStudent.getUsername(), ROLE_STUDENT.name());

@@ -15,8 +15,8 @@ public class Master extends User {
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
-    public Master(String username, String password, List<Role> roles, String masterCode, String phoneNumber) {
-        super(username, password, roles);
+    public Master(String name, String lastName, String username, String password, List<Role> roles, String masterCode, String phoneNumber) {
+        super(name, lastName, username, password, roles);
         this.masterCode = masterCode;
         this.phoneNumber = phoneNumber;
     }

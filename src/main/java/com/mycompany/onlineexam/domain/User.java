@@ -13,6 +13,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "name", nullable = false, length = 30)
+    private String name;
+    @Column(name = "last_name", nullable = false, length = 30)
+    private String lastName;
     @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
     @Column(name = "password", nullable = false)
@@ -20,7 +24,9 @@ public class User {
     @ManyToMany
     private List<Role> roles = new ArrayList<>();
 
-    public User(String username, String password, List<Role> roles) {
+    public User(String name, String lastName, String username, String password, List<Role> roles) {
+        this.name = name;
+        this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -51,6 +57,22 @@ public class User {
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public long getId() {
