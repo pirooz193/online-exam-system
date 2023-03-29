@@ -38,7 +38,7 @@ class StudentServiceImplTest {
 
     @Test
     void getStudentByUsernameAndPassword() {
-        studentRepository.save(new Student("student2", "student", new ArrayList<>(), "test2", "09118249968"));
+        studentRepository.save(new Student("student2 name", "student 2 last name", "student2", "student", new ArrayList<>(), "test2", "09118249968"));
         Assertions.assertNotNull(studentRepository.getStudentByUsernameAndPassword("student2", "student"));
         Assertions.assertNull(studentRepository.findStudentByUsername("test"));
     }
@@ -155,7 +155,7 @@ class StudentServiceImplTest {
 
     @Test
     void getStudentByUsername() {
-        studentRepository.save(new Student("student1", "student", new ArrayList<>(), "test1", "09118249969"));
+        studentRepository.save(new Student("student1 name", "student 1 last name ", "student1", "student", new ArrayList<>(), "test1", "09118249969"));
         Assertions.assertNotNull(studentRepository.findStudentByUsername("student1"));
     }
 }
