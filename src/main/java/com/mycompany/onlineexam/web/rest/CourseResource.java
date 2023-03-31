@@ -5,6 +5,7 @@ import com.mycompany.onlineexam.service.CourseService;
 import com.mycompany.onlineexam.service.dto.CourseDTO;
 import com.mycompany.onlineexam.web.errors.FullCapacityException;
 import com.mycompany.onlineexam.web.errors.StudentExistenceException;
+import com.mycompany.onlineexam.web.model.CourseModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class CourseResource {
     }
 
     @PostMapping("/admin/create-course")
-    public ResponseEntity<Course> createCourse(@RequestBody CourseDTO courseDTO) {
-        logger.info("Request to create a new Course:{} ", courseDTO);
-        Course course = courseService.createCourse(courseDTO);
+    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseModel courseModel) {
+        logger.info("Request to create a new Course:{} ", courseModel);
+        CourseDTO course = courseService.createCourse(courseModel);
         return ResponseEntity.created(URI.create("/created")).body(course);
     }
 
-    @GetMapping("/admin/get-all-courses")
+    @GetMapping("/admin/all-courses")
     public ResponseEntity<List<Course>> getAllCourses() {
         logger.info("Request to get all courses");
             List<Course> courses = courseService.getAllCourses();

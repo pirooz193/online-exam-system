@@ -14,6 +14,7 @@ import com.mycompany.onlineexam.web.errors.CourseListIsEmptyException;
 import com.mycompany.onlineexam.web.errors.FullCapacityException;
 import com.mycompany.onlineexam.web.errors.StudentExistenceException;
 import com.mycompany.onlineexam.web.model.ApiUtil;
+import com.mycompany.onlineexam.web.model.CourseModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -40,17 +41,23 @@ public class CourseServiceImpl implements CourseService {
     }
 
     /**
-     * Save a new Course
+     * Create new course
+     * get the initial data of a course and fetch required data from DB like the required master.
      *
-     * @param courseDTO
+     * @param courseModel
      * @return
      */
     @Override
-    public Course createCourse(CourseDTO courseDTO) {
-        logger.debug("Request to create a new Course:{} ", courseDTO);
-        Course course = courseMapper.toEntity(courseDTO);
-        course.setCourseCode(ApiUtil.generateRandomCode(Constants.COURSE, 5));
-        return courseRepository.save(course);
+    public CourseDTO createCourse(CourseModel courseModel) {
+        logger.debug("Request to create a new Course:{} ", courseModel);
+        Course newCourse = new Course();
+        newCourse.setCourseTitle(courseModel.getCourseTitle());
+        newCourse.setCourseCapacity(courseModel.getCapacity());
+        Master master = masterService.getMasterByMasterCode(courseModel.getMasterCode());
+        newCourse.setMaster(master);
+        newCourse.setCourseCode(ApiUtil.generateRandomCode(Constants.COURSE, 5));
+        Course savedCourse = courseRepository.save(newCourse);
+        return courseMapper.toDTO(savedCourse);
     }
 
     /**
