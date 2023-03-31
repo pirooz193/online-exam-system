@@ -4,11 +4,12 @@ import com.mycompany.onlineexam.domain.Course;
 import com.mycompany.onlineexam.service.dto.CourseDTO;
 import com.mycompany.onlineexam.web.errors.FullCapacityException;
 import com.mycompany.onlineexam.web.errors.StudentExistenceException;
+import com.mycompany.onlineexam.web.model.CourseModel;
 
 import java.util.List;
 
 public interface CourseService {
-    Course createCourse(CourseDTO courseDTO);
+    CourseDTO createCourse(CourseModel courseModel);
 
     Integer addStudentToCourse(String studentCode, String courseCode) throws FullCapacityException, StudentExistenceException;
 

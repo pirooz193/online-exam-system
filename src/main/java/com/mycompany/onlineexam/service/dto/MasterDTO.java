@@ -2,7 +2,7 @@ package com.mycompany.onlineexam.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mycompany.onlineexam.domain.Role;
-
+import com.sun.istack.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,12 @@ import java.util.Objects;
 public class MasterDTO {
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
+    @NotNull
+    private String name;
+    @JsonProperty("lastName")
+    @NotNull
+    private String lastName;
     @JsonProperty("username")
     private String username;
     @JsonProperty("password")
@@ -60,12 +66,30 @@ public class MasterDTO {
     public String toString() {
         return "MasterDTO{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", masterCode='" + masterCode + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Long getId() {
