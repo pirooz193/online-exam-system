@@ -3,12 +3,17 @@ package com.mycompany.onlineexam.web.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 public class CourseModel {
     @JsonProperty(value = "course_title")
+    @NotNull
     private String courseTitle;
     @JsonProperty(value = "capacity")
+    @NotNull
     private int capacity;
     @JsonProperty(value = "teacher_code")
+    @NotNull
     private String masterCode;
 
     public String getCourseTitle() {

@@ -23,7 +23,7 @@ public class Course {
 //    @JoinColumn(name = "exam_id")
     private List<Exam> examList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "master_id")
     private Master master;
 

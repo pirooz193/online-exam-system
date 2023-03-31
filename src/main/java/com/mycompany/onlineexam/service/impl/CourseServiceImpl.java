@@ -12,6 +12,7 @@ import com.mycompany.onlineexam.service.dto.CourseDTO;
 import com.mycompany.onlineexam.service.mapper.CourseMapper;
 import com.mycompany.onlineexam.web.errors.CourseListIsEmptyException;
 import com.mycompany.onlineexam.web.errors.FullCapacityException;
+import com.mycompany.onlineexam.web.errors.NotFoundException;
 import com.mycompany.onlineexam.web.errors.StudentExistenceException;
 import com.mycompany.onlineexam.web.model.ApiUtil;
 import com.mycompany.onlineexam.web.model.CourseModel;
@@ -53,7 +54,8 @@ public class CourseServiceImpl implements CourseService {
         Course newCourse = new Course();
         newCourse.setCourseTitle(courseModel.getCourseTitle());
         newCourse.setCourseCapacity(courseModel.getCapacity());
-        Master master = masterService.getMasterByMasterCode(courseModel.getMasterCode());
+        Master master = masterService.getMasterByMasterCode(Constants.MASTER_CODE + Constants.DASH + courseModel.getMasterCode());
+        if (master == null) throw new NotFoundException("Teacher with code [" + courseModel.getMasterCode() + "]");
         newCourse.setMaster(master);
         newCourse.setCourseCode(ApiUtil.generateRandomCode(Constants.COURSE, 5));
         Course savedCourse = courseRepository.save(newCourse);
