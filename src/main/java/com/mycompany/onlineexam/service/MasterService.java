@@ -1,10 +1,9 @@
 package com.mycompany.onlineexam.service;
 
-import com.mycompany.onlineexam.domain.Admin;
-import com.mycompany.onlineexam.domain.Course;
 import com.mycompany.onlineexam.domain.Master;
 import com.mycompany.onlineexam.service.dto.MasterDTO;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 public interface MasterService {
     Master checkMasterLogin(String username, String password);
@@ -18,4 +17,6 @@ public interface MasterService {
     Master getMasterByMasterCode(String masterCode);
 
     Master getMasterByUsername(String username);
+
+    List<Master> getAllMasters();
 }

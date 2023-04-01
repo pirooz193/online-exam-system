@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -51,6 +52,13 @@ public class MasterResource {
         Master master = masterService.createMaster(masterDto);
         if (master == null) throw new NotFoundException(Constants.MASTER_CODE);
         return ResponseEntity.created(URI.create("/create")).body(master);
+    }
+
+    @GetMapping("/admin/all-teachers")
+    public ResponseEntity<List<Master>> getAllTeachers() {
+        logger.info("Request to get all masters");
+        List<Master> allMasters = masterService.getAllMasters();
+        return ResponseEntity.ok().body(allMasters);
     }
 
     /**

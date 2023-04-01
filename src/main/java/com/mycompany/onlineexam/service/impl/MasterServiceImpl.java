@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.mycompany.onlineexam.config.enumuration.ApplicationUserRoles.ROLE_MASTER;
 
 @Service
@@ -78,5 +80,11 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public Master getMasterByUsername(String username) {
         return masterRepository.findMasterByUsername(username);
+    }
+
+    @Override
+    public List<Master> getAllMasters() {
+        logger.debug("Request to get all masters in service layer.");
+        return masterRepository.findAll();
     }
 }
