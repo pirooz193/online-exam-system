@@ -146,4 +146,8 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDTO(course);
     }
 
+    @Override
+    public void saveAll(List<Course> allCourses) {
+        courseRepository.saveAll(allCourses);
+    }
 }
