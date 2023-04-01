@@ -67,7 +67,7 @@ public class MasterResource {
      * @param masterCode
      * @return
      */
-    @DeleteMapping("/admin/delete-master/{masterCode}}")
+    @DeleteMapping("/admin/delete-master/{masterCode}")
     public void deleteMaster(@PathVariable String masterCode) {
         logger.info("Request to delete Master with master code : {}", masterCode);
         masterService.deleteMaster(masterCode);
