@@ -22,4 +22,6 @@ public interface CourseService {
     List<Course> getRequiredMasterCourses(String masterCode);
 
     CourseDTO updateCourseInfo(CourseDTO courseDTO);
+
+    void saveAll(List<Course> allCourses);
 }

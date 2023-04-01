@@ -1,13 +1,14 @@
 package com.mycompany.onlineexam.service.impl;
 
+import com.mycompany.onlineexam.domain.Course;
 import com.mycompany.onlineexam.domain.Master;
 import com.mycompany.onlineexam.domain.constants.Constants;
+import com.mycompany.onlineexam.repository.CourseRepository;
 import com.mycompany.onlineexam.repository.MasterRepository;
 import com.mycompany.onlineexam.service.MasterService;
 import com.mycompany.onlineexam.service.UserService;
 import com.mycompany.onlineexam.service.dto.MasterDTO;
 import com.mycompany.onlineexam.service.mapper.MasterMapper;
-import com.mycompany.onlineexam.web.model.ApiUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.mycompany.onlineexam.config.enumuration.ApplicationUserRoles.ROLE_MASTER;
 
@@ -31,12 +33,14 @@ public class MasterServiceImpl implements MasterService {
     private final UserService userService ;
     private final PasswordEncoder passwordEncoder;
     private final MasterMapper masterMapper;
+    private final CourseRepository courseRepository;
 
-    public MasterServiceImpl(MasterRepository masterRepository, UserService userService, PasswordEncoder passwordEncoder, MasterMapper masterMapper) {
+    public MasterServiceImpl(MasterRepository masterRepository, UserService userService, PasswordEncoder passwordEncoder, MasterMapper masterMapper, CourseRepository courseRepository) {
         this.masterRepository = masterRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.masterMapper = masterMapper;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -48,8 +52,9 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public Master createMaster(MasterDTO masterDto) {
         Master master = masterMapper.toEntity(masterDto);
+        master.setUsername(masterDto.getMasterCode());
         master.setPassword(passwordEncoder.encode(master.getPhoneNumber()));
-        master.setMasterCode(ApiUtil.generateRandomCode(Constants.MASTER_CODE, NUMBER_OF_MASTER_CODE));
+        master.setMasterCode(Constants.MASTER_CODE + Constants.DASH + master.getMasterCode());
         Master savedMaster = masterRepository.save(master);
         userService.addRoleToUser(savedMaster.getUsername(), ROLE_MASTER.name());
         return savedMaster;
@@ -58,6 +63,11 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public void deleteMaster(String masterCode) {
         logger.debug("Request to delete Master with masterCode :{}", masterCode);
+        List<Course> allCourses = courseRepository.findAll().stream()
+                .filter(course -> course.getMaster().getMasterCode().equals(masterCode))
+                .collect(Collectors.toList());
+        allCourses.forEach(course -> course.setMaster(null));
+        courseRepository.saveAll(allCourses);
         masterRepository.deleteMasterByMasterCode(masterCode);
     }
 
