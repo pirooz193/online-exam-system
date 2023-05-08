@@ -6,6 +6,7 @@ import com.mycompany.onlineexam.service.dto.CourseDTO;
 import com.mycompany.onlineexam.web.errors.FullCapacityException;
 import com.mycompany.onlineexam.web.errors.StudentExistenceException;
 import com.mycompany.onlineexam.web.model.CourseModel;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class CourseResource {
         return ResponseEntity.created(URI.create("/created")).body(course);
     }
 
+    @ApiOperation("Get a list of all courses")
     @GetMapping("/admin/all-courses")
     public ResponseEntity<List<Course>> getAllCourses() {
         logger.info("Request to get all courses");

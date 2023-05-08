@@ -6,6 +6,7 @@ import com.mycompany.onlineexam.domain.User;
 import com.mycompany.onlineexam.service.UserService;
 import com.mycompany.onlineexam.web.model.RefreshTokenModel;
 import com.mycompany.onlineexam.web.model.TokenModel;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "Get token", tags = "public")
     @PostMapping("/get-token")
     public ResponseEntity<TokenModel> getToken(@RequestParam String username, @RequestParam String password) {
 //        logger.info("Request to get token with username :{} , and password :{}", username, password);
