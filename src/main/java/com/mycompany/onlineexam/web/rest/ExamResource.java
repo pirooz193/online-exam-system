@@ -39,10 +39,10 @@ public class ExamResource {
         return ResponseEntity.ok(exams);
     }
 
-    @DeleteMapping("/master/delete-exam")
-    public ResponseEntity<?> deleteExam(@RequestParam String examCode) {
+    @DeleteMapping("/master/delete-exam/{courseCode}")
+    public ResponseEntity<?> deleteExam(@RequestParam String examCode, @PathVariable String courseCode) {
         logger.info("Request to delete an Exam with exam-code :{}", examCode);
-        examService.deleteExamByExamCode(examCode);
+        examService.deleteExamByExamCode(examCode, courseCode);
         return ResponseEntity.ok().build();
     }
 
@@ -50,7 +50,7 @@ public class ExamResource {
     public ResponseEntity<?> deleteQuestion(@RequestParam String questionCode, @RequestParam String examCode) {
         logger.info("Request to delete Exam's question with question-code :{}", questionCode);
         examService.deleteQuestion(questionCode, examCode);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/master/exam-info")

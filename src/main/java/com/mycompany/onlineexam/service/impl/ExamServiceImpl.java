@@ -63,11 +63,15 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void deleteExamByExamCode(String examCode) {
+    public void deleteExamByExamCode(String examCode, String courseCode) {
         logger.info("Request to delete an Exam with exam-code :{}", examCode);
         Exam exam = getExamByExamCode(examCode);
         if (exam == null) throw new ExamNotFoundException(examCode);
+        Course requiredCourse = courseRepository.findCourseByCourseCode(courseCode);
+        requiredCourse.getExamList().removeIf(exam1 -> exam1.getExamCode().equals(examCode));
+        courseRepository.save(requiredCourse);
         examRepository.deleteExamByExamCode(examCode);
+
     }
 
     @Override

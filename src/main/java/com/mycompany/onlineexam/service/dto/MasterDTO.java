@@ -15,7 +15,7 @@ public class MasterDTO {
     @JsonProperty("name")
     @NotNull
     private String name;
-    @JsonProperty("lastName")
+    @JsonProperty("last_name")
     @NotNull
     private String lastName;
     @JsonProperty("username")
@@ -23,6 +23,7 @@ public class MasterDTO {
     @JsonProperty("password")
     private String password;
     @JsonProperty("master_code")
+    @NotNull
     private String masterCode;
     @JsonProperty("phone_number")
     private String phoneNumber;
