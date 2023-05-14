@@ -14,7 +14,7 @@ public interface ExamService {
 
     List<Exam> getAllExams();
 
-    void deleteExamByExamCode(String examCode);
+    void deleteExamByExamCode(String examCode, String courseCode);
 
     void deleteQuestion(String questionCode , String examCode);
 

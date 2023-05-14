@@ -9,6 +9,7 @@ import com.mycompany.onlineexam.service.MasterService;
 import com.mycompany.onlineexam.service.UserService;
 import com.mycompany.onlineexam.service.dto.MasterDTO;
 import com.mycompany.onlineexam.service.mapper.MasterMapper;
+import com.mycompany.onlineexam.web.errors.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +31,7 @@ public class MasterServiceImpl implements MasterService {
     private final Logger logger = LogManager.getLogger(MasterServiceImpl.class);
 
     private final MasterRepository masterRepository;
-    private final UserService userService ;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final MasterMapper masterMapper;
     private final CourseRepository courseRepository;
@@ -63,7 +64,12 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public void deleteMaster(String masterCode) {
         logger.debug("Request to delete Master with masterCode :{}", masterCode);
+        Master master = masterRepository.getMasterByMasterCode(masterCode);
+        if (master == null) {
+            throw new NotFoundException(masterCode);
+        }
         List<Course> allCourses = courseRepository.findAll().stream()
+                .filter(crs -> crs.getMaster() != null)
                 .filter(course -> course.getMaster().getMasterCode().equals(masterCode))
                 .collect(Collectors.toList());
         allCourses.forEach(course -> course.setMaster(null));

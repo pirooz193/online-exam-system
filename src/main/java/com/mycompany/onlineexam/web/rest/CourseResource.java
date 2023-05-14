@@ -63,7 +63,7 @@ public class CourseResource {
         return ResponseEntity.ok(masterCourses);
     }
 
-    @PutMapping("/master/add-student")
+    @PutMapping("/admin/add-student")
     public ResponseEntity<Integer> addStudentToCourse(@RequestParam String courseCode, @RequestParam String studentCode) throws FullCapacityException, StudentExistenceException {
         logger.info("Request to add ann student with studentCode:{} to  course with courseCode:{}", studentCode, courseCode);
             Integer courseCapacity = courseService.addStudentToCourse(studentCode, courseCode);
